@@ -2,7 +2,7 @@
 // API SERVICE
 // ================================
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://face-detection-system-35lz.onrender.com";
 
 // Helper function to handle response errors
 const handleResponse = async (response) => {

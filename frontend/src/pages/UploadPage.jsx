@@ -181,7 +181,7 @@ const UploadPage = () => {
       const formData = new FormData();
       formData.append('file', blob, 'frame.jpg');
 
-      const response = await fetch('http://localhost:5000/liveness/detect_face', {
+      const response = await fetch('https://face-detection-system-35lz.onrender.com/liveness/detect_face', {
         method: 'POST',
         body: formData
       });
@@ -451,7 +451,7 @@ const UploadPage = () => {
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://localhost:5000/predict", {
+      const response = await fetch("https://face-detection-system-35lz.onrender.com/predict", {
         method: "POST",
         body: formData
       });
@@ -721,7 +721,7 @@ const UploadPage = () => {
 
       console.log(`📤 Sending request for challenge: ${challenge}`);
 
-      const response = await fetch("http://localhost:5000/liveness/verify_liveness", {
+      const response = await fetch("https://face-detection-system-35lz.onrender.com/liveness/verify_liveness", {
         method: "POST",
         body: formData
       });
