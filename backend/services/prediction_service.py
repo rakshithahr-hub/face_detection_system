@@ -1,20 +1,17 @@
 import joblib
 import numpy as np
 from config import Config
-import joblib
-
-
 from services.feature_extraction import extract_features_unified
 
 # ================================
 # LOAD MODEL (only once)
 # ================================
+# ✅ LOAD ACTUAL MODEL OBJECTS
 model = joblib.load(Config.MODEL_PATH)
 scaler = joblib.load(Config.SCALER_PATH)
 pca = joblib.load(Config.PCA_PATH)
 
 THRESHOLD = 0.5
-
 
 # ================================
 # PREDICTION FUNCTION
@@ -37,7 +34,6 @@ def predict_image(image):
             }
 
         features = features.reshape(1, -1)
-
         print("Feature shape:", features.shape)
 
         # 2. Scaling + PCA
@@ -56,13 +52,9 @@ def predict_image(image):
         # 4. Label
         label = "REAL" if prediction == 1 else "SPOOF"
 
-        # ================================
-        # 🔥 ADD FEATURES FOR FRONTEND
-        # ================================
+        # 5. Features for frontend
         livenessScore = confidence if label == "REAL" else (100 - confidence)
         spoofProbability = 100 - confidence
-
-        # You can replace this later with real texture features
         textureScore = float(np.clip(np.mean(features), 0, 100))
 
         return {
@@ -77,11 +69,15 @@ def predict_image(image):
 
     except Exception as e:
         print("Prediction error:", str(e))
-
+        
+        # ✅ Return error response with default values
         return {
-    "label": label,
-    "confidence": round(confidence, 2),
-
-    # ✅ ADD THIS BLOCK
-    
-}
+            "label": "ERROR",
+            "confidence": 0,
+            "features": {
+                "livenessScore": 0,
+                "textureScore": 0,
+                "spoofProbability": 0
+            },
+            "error": str(e)
+        }

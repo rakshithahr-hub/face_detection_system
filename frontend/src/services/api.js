@@ -1,3 +1,7 @@
+// ================================
+// API SERVICE
+// ================================
+
 const BASE_URL = "http://localhost:5000";
 
 // Helper function to handle response errors
@@ -11,7 +15,11 @@ const handleResponse = async (response) => {
   return data;
 };
 
-// User Registration
+// ================================
+// AUTHENTICATION API
+// ================================
+
+// ✅ User Registration
 export const registerUser = async (name, email, password) => {
   try {
     const response = await fetch(`${BASE_URL}/register`, {
@@ -29,7 +37,7 @@ export const registerUser = async (name, email, password) => {
   }
 };
 
-// User Login
+// ✅ User Login
 export const loginUser = async (email, password) => {
   try {
     const response = await fetch(`${BASE_URL}/login`, {
@@ -47,7 +55,11 @@ export const loginUser = async (email, password) => {
   }
 };
 
-// Image Prediction (with JWT token)
+// ================================
+// PREDICTION API
+// ================================
+
+// ✅ Image Prediction (with JWT token)
 export const predictImage = async (formData) => {
   try {
     const token = localStorage.getItem("token");
@@ -60,8 +72,10 @@ export const predictImage = async (formData) => {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`
+        // ❌ Do NOT set Content-Type for FormData
+        // Browser will set it automatically with boundary
       },
-      body: formData // Don't set Content-Type for FormData, browser will set it with boundary
+      body: formData  // ✅ Send FormData directly
     });
     
     return await handleResponse(response);
@@ -71,7 +85,11 @@ export const predictImage = async (formData) => {
   }
 };
 
-// Optional: Upload file endpoint (if you have it)
+// ================================
+// UPLOAD API
+// ================================
+
+// ✅ Upload File
 export const uploadFile = async (formData) => {
   try {
     const token = localStorage.getItem("token");
@@ -93,51 +111,4 @@ export const uploadFile = async (formData) => {
     console.error("Upload error:", error);
     throw error;
   }
-};
-
-// Optional: Protected route example
-export const getProtectedData = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    
-    if (!token) {
-      throw new Error("No authentication token found. Please login again.");
-    }
-    
-    const response = await fetch(`${BASE_URL}/protected`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      }
-    });
-    
-    return await handleResponse(response);
-  } catch (error) {
-    console.error("Error fetching protected data:", error);
-    throw error;
-  }
-};
-
-// Optional: Logout function (clear local storage)
-export const logoutUser = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("userEmail");
-  localStorage.removeItem("userName");
-  // Add any other user data you've stored
-};
-
-// Optional: Check if user is authenticated
-export const isAuthenticated = () => {
-  const token = localStorage.getItem("token");
-  return token !== null && token !== undefined;
-};
-
-// Optional: Get auth headers for manual requests
-export const getAuthHeaders = () => {
-  const token = localStorage.getItem("token");
-  return {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json"
-  };
 };

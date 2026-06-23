@@ -86,18 +86,18 @@ def verify_liveness():
         
         # FIXED: Using -40px for LEFT and +40px for RIGHT
         if challenge == "LEFT":
-            if offset < -40:  
+            if offset < -10:  
                 detected = True
                 message = f"✅ LEFT movement detected! (Offset: {offset:.0f}px)"
             else:
-                message = f"⏳ Turn LEFT more (Offset: {offset:.0f}px, need < -40px)"
+                message = f"⏳ Turn LEFT more (Offset: {offset:.0f}px, need < -10px)"
                 
         elif challenge == "RIGHT":
-            if offset > 40:  
+            if offset > 10:  
                 detected = True
                 message = f"✅ RIGHT movement detected! (Offset: {offset:.0f}px)"
             else:
-                message = f"⏳ Turn RIGHT more (Offset: {offset:.0f}px, need > 40px)"
+                message = f"⏳ Turn RIGHT more (Offset: {offset:.0f}px, need > 10px)"
         else:
             message = f"Unknown challenge: {challenge}"
 

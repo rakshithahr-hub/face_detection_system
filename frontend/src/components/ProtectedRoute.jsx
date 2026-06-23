@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import { isAuthenticated } from "../services/auth";
 
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const authenticated = isAuthenticated();
 
-  if (!token) {
-    return <Navigate to="/login" />;
+  if (!authenticated) {
+    return <Navigate to="/login" replace />;
   }
 
   return children;
