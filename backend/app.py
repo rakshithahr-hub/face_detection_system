@@ -11,7 +11,14 @@ from liveness_detection import liveness_bp  # Import the blueprint
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(
+    app,
+    origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://face-detection-system-1-zzbf.onrender.com"
+    ]
+)
 
 app.config["JWT_SECRET_KEY"] = os.getenv(
     "JWT_SECRET_KEY",
